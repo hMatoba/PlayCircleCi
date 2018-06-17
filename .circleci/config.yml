@@ -26,7 +26,7 @@ jobs:
       - run:
           name: run tests
           command: |
-            echo "foo"
+            echo foo
 
   deploy:
     working_directory: ~/repo
@@ -34,7 +34,7 @@ jobs:
       - run:
           name: deploy
           command: |
-            echo "Dep!"
+            echo Deployyyyyyyyyyyyyyyyyyy
 
 workflows:
   version: 2
