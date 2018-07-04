@@ -10,6 +10,8 @@ jobs:
       - run: mkdir -p /tmp/workspace
       - persist_to_workspace:
           root: /tmp/workspace
+          paths:
+            - docker
 
       - checkout
 
@@ -34,7 +36,7 @@ jobs:
           name: build
           command: |
             docker pull alpine
-            docker save alpine > /tmp/workspace/alpine-image.tar
+            docker save alpine > /tmp/workspace/docker/alpine-image.tar
             docker images
 
   deploy:
@@ -50,8 +52,8 @@ jobs:
           name: deploy
           command: |
             docker images
-            ls /tmp/workspace
-            docker load < /tmp/workspace/alpine-image.tar
+            ls /tmp/workspace/docker
+            docker load < /tmp/workspace/docker/alpine-image.tar
             docker images
 
 workflows:
