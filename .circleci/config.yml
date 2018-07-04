@@ -7,7 +7,13 @@ jobs:
     working_directory: ~/repo
 
     steps:
+      - persist_to_workspace:
+          root: /tmp/workspace
+
       - checkout
+
+      - setup_remote_docker:
+          docker_layer_caching: true
 
       # Download and cache dependencies
       - restore_cache:
@@ -24,9 +30,11 @@ jobs:
             pip install -r requirements.txt
 
       - run:
-          name: run tests
+          name: build
           command: |
-            echo foobar
+            docker pull alpine
+            docker save alpine > /tmp/workspace/alpine-image.tar
+            docker images
 
   deploy:
     docker:
@@ -34,10 +42,16 @@ jobs:
 
     working_directory: ~/repo
     steps:
+      - attach_workspace:
+          at: /tmp/workspace
+
       - run:
           name: deploy
           command: |
-            echo Deployyyyyyyyyyyyyyyyyyy
+            docker images
+            ls /tmp/workspace
+            docker load < /tmp/workspace/alpine-image.tar
+            docker images
 
 workflows:
   version: 2
