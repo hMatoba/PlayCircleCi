@@ -4,14 +4,10 @@ jobs:
     docker:
       - image: gitlab/dind
 
-    working_directory: /tmp/workspace
+    working_directory: ~/repo
 
     steps:
       - run: mkdir -p /tmp/workspace/docker
-      - persist_to_workspace:
-          root: /tmp/workspace
-          paths:
-            - ./
 
       - checkout
 
@@ -22,15 +18,21 @@ jobs:
           name: build
           command: |
             docker pull alpine
-            docker save alpine > docker/alpine-image.tar
-            ls docker
+            docker save alpine > /tmp/workspace/docker/alpine-image.tar
+            ls /tmp/workspace/docker
             docker images
+
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:
+            - ./
+
 
   deploy:
     docker:
       - image: gitlab/dind
 
-    working_directory: /tmp/workspace
+    working_directory: ~/repo
     steps:
       - run: mkdir -p /tmp/workspace
       - attach_workspace:
@@ -42,10 +44,10 @@ jobs:
       - run:
           name: deploy
           command: |
-            ls
+            ls /tmp/workspace
             docker images
-            ls docker
-            docker load < docker/alpine-image.tar
+            ls /tmp/workspace/docker
+            docker load < /tmp/workspace/docker/alpine-image.tar
             docker images
 
 workflows:
