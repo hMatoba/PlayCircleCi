@@ -8,7 +8,9 @@ jobs:
 
     steps:
       - run: mkdir -p /tmp/workspace/docker
-      - run: apk add docker
+      - run: |
+        apd update
+        apk add docker
 
       - checkout
 
@@ -37,8 +39,10 @@ jobs:
       - attach_workspace:
           at: /tmp/workspace
 
-      - run: apk add docker
-      
+      - run: |
+        apk update
+        apk add docker
+
       - setup_remote_docker:
           docker_layer_caching: true
 
