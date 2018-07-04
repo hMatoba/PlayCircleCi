@@ -19,8 +19,6 @@ jobs:
           command: |
             docker pull alpine
             docker save alpine > /tmp/workspace/docker/alpine-image.tar
-            ls /tmp/workspace/docker
-            docker images
 
       - persist_to_workspace:
           root: /tmp/workspace
@@ -44,9 +42,7 @@ jobs:
       - run:
           name: deploy
           command: |
-            ls /tmp/workspace
             docker images
-            ls /tmp/workspace/docker
             docker load < /tmp/workspace/docker/alpine-image.tar
             docker images
 
