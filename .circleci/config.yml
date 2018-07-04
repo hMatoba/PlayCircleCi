@@ -37,15 +37,16 @@ jobs:
 
     working_directory: ~/repo
     steps:
-      - run: mkdir -p /tmp/workspace
-      - attach_workspace:
-          at: /tmp/workspace
-
       - run:
-          name: install docker
+          name: install
           command: |
             apk update
             apk add docker
+            apk add ca-certificates  # ↓でのattachに必要
+
+      - run: mkdir -p /tmp/workspace
+      - attach_workspace:
+          at: /tmp/workspace
 
       - setup_remote_docker:
           docker_layer_caching: true
