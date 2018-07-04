@@ -41,7 +41,9 @@ jobs:
       - run:
           name: deploy
           command: |
-            ls
+            ls /tmp
+            ls /tmp/workspace
+            ls /tmp/workspace/docker
             docker images
             ls /tmp/workspace/docker
             docker load < /tmp/workspace/docker/alpine-image.tar
