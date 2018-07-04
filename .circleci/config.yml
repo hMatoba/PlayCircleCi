@@ -23,6 +23,7 @@ jobs:
           command: |
             docker pull alpine
             docker save alpine > /tmp/workspace/docker/alpine-image.tar
+            ls /tmp/workspace/docker
             docker images
 
   deploy:
