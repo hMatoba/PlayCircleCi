@@ -10,7 +10,7 @@ jobs:
       - run: mkdir -p /tmp/workspace/docker
       - run:
         command: |
-          apd update
+          apk update
           apk add docker
 
       - checkout
